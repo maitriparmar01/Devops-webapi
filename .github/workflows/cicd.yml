@@ -34,7 +34,6 @@
 #      run:
 #        curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
 #
-
 name: FastAPI CI/CD
 
 on:
@@ -64,3 +63,14 @@ jobs:
 
       - name: Check Python syntax
         run: python -m compileall -q .
+
+  deploy:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Trigger deployment to Render
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: curl --fail --silent --show-error -X POST "$RENDER_DEPLOY_HOOK_URL"
