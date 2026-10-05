@@ -5,9 +5,9 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-class PostHello(BaseModel):
-    name:str
-    age:int
+#class PostHello(BaseModel):
+#    name:str
+#    age:int
 
 @app.get("/hello")
 def hello_world():
